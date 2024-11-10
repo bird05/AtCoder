@@ -1,0 +1,1377 @@
+☆配列をスペース区切りで出力
+void out_vec_with_space(vector<auto> &v){
+  for (int i = 0; i < v.size(); i++){
+    cout << ( i ? " " : "" ) << v[i];
+  }
+  cout << endl;
+}
+
+☆配列をスペース区切りで出力(2次元)
+void out_vec2_with_space(vector<vector<auto>> &v){
+  for(int i = 0; i < v.size(); i++){
+    for(int j = 0; j < v[0].size(); j++){
+      cout << ( j ? " " : "" ) << v[i][j];
+    }
+    cout << endl;    
+  }
+}
+
+
+☆// https://atcoder.jp/contests/code-festival-2016-quala/submissions/39176613
+template <typename T>//3次元配列を表示
+void print_vec3(const T &vec3){
+    for(int i=0;i<(int)vec3.size();i++) {
+         for(int j=0;j<(int)vec3[i].size();j++){
+             cout<<" vec3["<<setw(2)<<i<<"]["<<setw(2)<<j<<"]=";
+             for(int k=0;k<(int)vec3[i][j].size();k++){
+                 cout<<" "<<setw(4)<<vec3[i][j][k];
+             }
+             cout<<"\n";
+         }
+        cout<<"\n";
+    }
+    cout<<"\n";
+}
+
+template <typename T>//setを表示
+void print_set(const T &st){
+    for(auto itr=st.begin();itr!=st.end();itr++){
+        cout<<" "<<*itr;
+    }
+    cout<<"\n";
+}
+ 
+template <typename T>//mapを表示
+void print_map(const T &mp){
+    for(auto itr=mp.begin();itr!=mp.end();itr++){
+        cout<<" map["<<itr->first<<"]="<<itr->second;
+        cout<<"\n";
+    }
+}
+ 
+template <typename T>//queueを表示
+void print_queue(T que){
+    while(!que.empty()){
+        cout<<" "<<que.front();
+        que.pop();
+    }
+    cout<<"\n";
+}
+ 
+template <typename T>//stackを表示
+void print_stack(T sta){
+    while(!sta.empty()){
+        cout<<" "<<sta.top();
+        sta.pop();
+    }
+    cout<<"\n";
+}
+
+☆グラフの受け取り
+vvi get_graph(){
+  int N,M;
+  cin >> N >> M;
+  vvi G(N);
+  rep(i,0,M){
+    int a,b;
+    cin >> a >> b;
+    a--; b--;
+    G[a].emplace_back(b);
+    G[b].emplace_back(a);
+  }
+  return G;
+}
+vvi G=get_graph(); // main関数にこれを書く
+
+☆8進数の文字列にする
+string to_oct(int n){
+  string s;
+  while(n){
+    s = to_string(n%8) + s;
+    n /= 8;
+  }
+  return s;
+}
+
+☆進数変換(10進数の数字xをh進数の文字列に変換)
+// 10進数の数字xをh進数の文字列に変換
+// 例:x=7,h=2,res=111
+// hが10を超えると壊れる
+string hex_conv_10_to_h(int x,int h){
+  string res="";
+  while(x){
+    res=to_string(x%h)+res;
+    x/=h;
+  }
+  return res;
+}
+
+☆進数変換(Sをh進数表現と考えた際の値を10進数で得る)
+// hexadecimal conversion
+// Sをh進数表現と考えた際の値を10進数で得る
+// 例S="111",h=3,res=9+3+1=13
+int hex_conv(string S,int h){
+  int res=0,d=1;
+  reverse(all(S));
+  fore(e,S){
+    res+=(e-'0')*d;
+    d*=h;
+  }
+  return res;
+}
+
+☆文字列を数字に変換した際の大小関係を返す
+// 文字列を数字に変換した際の大小関係を返す(大,同:true,小:false)
+bool is_large(string S1, string S2){
+  if(sz(S1)>sz(S2)) return true;
+  else if(sz(S1)<sz(S2)) return false;
+  else{
+    if(S1>=S2) return true;
+    else return false;
+  }
+}
+
+☆文字列を数字に変換した際の大小関係を返す
+// 文字列を数字に変換した際の大小関係を返す(小,同:true,大:false)
+bool is_small(string S1, string S2){
+  if(sz(S1)<sz(S2)) return true;
+  else if(sz(S1)>sz(S2)) return false;
+  else{
+    if(S1<=S2) return true;
+    else return false;
+  }
+}
+
+
+☆文字列が数値か判定する
+bool isNumber(const string& str){
+  fore(c,str){
+    if(!isdigit(c)) return false;
+  }
+  return true;
+}
+
+☆ビット全探索
+for (int tmp = 0; tmp < (1 << 3); tmp++) {
+  bitset<3> s(tmp);
+  // ビット列を出力
+  cout << s << endl;
+}
+
+☆ビット全探索
+ll digit_num = 5; //選択肢が5の時
+for(ll bit = 0; bit < (1<<digit_num); ++bit){
+  
+  for (int i = 0; i < digit_num; ++i) {
+    if(bit & (1<<i)){
+      // ここに処理
+    }else{
+      // ここに処理
+    }
+  }
+  
+  // ここに処理
+  
+}
+
+// URL:
+// https://qiita.com/drken/items/a14e9af0ca2d857dad23#4-%E7%B4%A0%E5%9B%A0%E6%95%B0%E5%88%86%E8%A7%A3
+☆素数判定
+正の整数 N が、2 以上 √N 以下の整数で割り切れないならば、√N 以上 N−1 以下の整数で割り切れることもない
+bool is_prime(long long N) {
+  if (N == 1) return false;
+  for (long long i = 2; i * i <= N; ++i) {
+    if (N % i == 0) return false;
+  }
+  return true;
+}
+
+☆約数列挙(2つ下のものの方がコンパクト)
+vector<long long> enum_divisors(long long N) {
+  vector<long long> res;
+  for (long long i = 1; i * i <= N; ++i) {
+    if (N % i == 0) {
+      res.push_back(i);
+      // 重複しないならば i の相方である N/i も push
+      if (N/i != i) res.push_back(N/i);
+    }
+  }
+  // 小さい順に並び替える
+  sort(res.begin(), res.end());
+  return res;
+}
+
+int main() {
+  long long N;
+  cin >> N;
+  const auto &res = enum_divisors(N);
+  for (int i = 0; i < res.size(); ++i) cout << res[i] << " ";
+  cout << endl;
+}
+
+☆約数の個数(種類数)を返す O(√N)
+ll divisers(ll N){
+  int res=0;
+  for (long long i = 1; i * i <= N; ++i) {
+    if (N % i == 0) {
+      res++;
+    }
+  }
+  return res;
+}
+
+☆全ての約数(素因数ではない)を返す
+ABC112Dで使用
+https://atcoder.jp/contests/abc112/submissions/3348509
+vi enumdiv(int n){
+  vi S;
+  for(int i=1; 1LL*i*i<=n; ++i) if(n%i==0){S.emplace_back(i); if(i*i!=n) S.push_back(n/i);}
+  sort(all(S));
+  return S;
+}
+
+☆素因数分解(戻り値：ペアのベクター) O(√N)
+vp prime_factorize(int N) {
+  vector<P> res;
+  for (int a = 2; a * a <= N; ++a) {
+    // aで割り切れなければ次に行く
+    if (N % a != 0) continue;
+    int ex = 0; // 指数
+    
+    // 割れる限り割り続ける
+    while(N % a == 0){
+      ++ex;
+      N /= a;
+    }
+    
+    // その結果を push
+    res.push_back({a, ex});
+  }
+  
+  // 最後に残った数について
+  if (N != 1) res.push_back({N, 1});
+  return res;
+}
+
+signed main() {
+  int N;
+  cin >> N;
+  
+  vector<int> A(N);
+  rep(i,0,N) cin >> A[i];
+  
+  vector<int> A(N);
+  vector<int> B(N);
+  rep(i,0,N) cin >> A[i] >> B[i];
+  
+  const auto &res = prime_factorize(N);
+  cout << N << ":";
+  for (auto p : res) {
+    for (int i = 0; i < p.second; ++i) cout << " " << p.first;
+  }
+  cout << endl;
+}
+
+
+☆素因数分解(戻り値：ベクター(同じものは複数並ぶ)) O(√N)
+vi prime_factorize(int N) {
+  vi res;
+  for(int a=2; a*a<=N; ++a) {
+    // aで割り切れなければ次に行く
+    if(N%a != 0) continue;
+    
+    // 割れる限り割り続けて結果をpush
+    while(N%a==0) {
+      res.emplace_back(a);
+      N/=a;
+    }
+  }
+  
+  // 最後に残った数について
+  if(N!=1) res.emplace_back(N);
+  return res;
+}
+
+int main() {
+  int N;
+  cin >> N;
+  const auto &res = prime_factorize(N);
+  cout << N << ":";
+  for (auto p : res) {
+    cout << " " << p;
+  }
+  cout << endl;
+}
+
+☆素因数分解(戻り値：マップ) O(√N)
+// ABC152Eより
+// https://atcoder.jp/contests/abc152/submissions/9706493
+map<int, int> enumpr(int n) {
+  map<int, int> V;
+  for (int i = 2; 1LL*i*i <= n; i++) while (n%i == 0) V[i]++, n /= i;
+  if (n>1) V[n]++;
+  return V;
+}
+
+☆エラトステネスの篩
+int main() {
+  // エラトステネスの篩
+  int MAX = 100000;
+  vector<int> is_prime(MAX+1, 1);
+  is_prime[0]=0;
+  is_prime[1]=0;
+  for(int i=2; i<MAX; i++){
+    if(is_prime[i]==0) continue;
+    for(int j=i*2; j<MAX; j+=i) is_prime[j]=0;
+  }
+}
+
+
+☆累積和
+  // s0 = 0
+  // s1 = a0
+  // s2 = a0 + a1
+  // sN = a0 + a1 +...+ aN-1
+int main(){
+  vector<int> s(MAX+1, 0);
+  for(int i=0; i<MAX; i++) s[i+1] = s[i] + a[i];
+}
+
+//https://note.com/kazusasan/n/n9ea759286ea3
+☆最大公約数、最小公倍数
+int gcd(int a, int b){
+  if(a%b == 0) return(b);
+  else return(gcd(b, a%b));
+}
+int lcm(int a, int b){
+  return a * b / gcd(a, b);
+}
+
+☆最大公約数、最小公倍数(短いバージョン)
+int gcd(int a, int b){return b?gcd(b,a%b):a;}
+int lcm(int a, int b){return a*b/gcd(a,b);}
+
+☆最大公約数(任意の個数の引き数を受け取れる)
+template<class... A> int mgcd(A... args) {
+  int s;
+  bool flg=true;
+  for (int i : initializer_list<int>{args...}) {
+    if(flg){
+      s=i;
+      flg=false;
+    }else{
+      s = gcd(s,i);
+    }
+  }
+  return s;
+}
+
+☆最大公約数(配列を受け取れる)
+int gcd(int a, int b){return b?gcd(b,a%b):a;}
+int gcd_vec(vi A){
+  int res=0;
+  fore(e,A) res=gcd(res,e);
+  return res;
+}
+
+☆桁数を返す関数
+int get_digit(int num){
+  int res=0;
+  while(num){
+    num/=10;
+    ++res;
+  }
+  return res;
+}
+
+☆各桁の和を求める関数
+int digit_sum(int x){
+  int res=0;
+  while(x){
+    res+=x%10;
+    x/=10;
+  }
+  return res;
+}
+
+☆繰り返し二乗法 nのx乗(mint以外で使うとオーバーフローするのでこれを直接使う事はないと思われる)
+ll pow2(ll n, ll x){
+  if (!x) return 1;
+  ll a = pow2(n,x>>1);
+  a *= a;
+  if (x&1) a *= n;
+  return a;
+}
+
+☆繰り返し二乗法を2回(a^(b^c)(mod m))
+int modpowpow(int a, int b, int c, int m){
+  // 問題設定によりn%m==0の場合(0^0=0としたい場合)は0を返す必要がある
+  //if(n%m==0) return 0;
+  n%=m;
+  int res = 1;
+  while(k){
+    if(k & 1){
+      res = (res * n) % m;
+    }
+    n = (n * n) % m;
+    k >>= 1;
+  }
+  return res;
+}
+☆繰り返し二乗法 aのb乗のmod m(下よりこっちが良さそう)
+int modpow(int n, int k, int m){
+  // 問題設定によりn%m==0の場合(0^0=0としたい場合)は0を返す必要がある
+  //if(n%m==0) return 0;
+  n%=m;
+  int res = 1;
+  while(k){
+    if(k & 1){
+      res = (res * n) % m;
+    }
+    n = (n * n) % m;
+    k >>= 1;
+  }
+  return res;
+}
+
+☆繰り返し二乗法 aのb乗のmod m
+// https://math.nakaken88.com/textbook/cp-binary-exponentiation-and-recursive-function/
+// 事前にa%=mをしておかないといけないかも
+int modPow(int a, int n, int m) {
+  if(n==0) return 1; // 0乗にも対応する場合
+  if(n==1) return a%m;
+  if(n%2==1) return (a*modPow(a,n-1,m))%m;
+  int t=modPow(a,n/2,m);
+  return (t*t)%m;
+}
+
+☆mapの最大値を求める
+template<typename KeyType, typename ValueType> 
+pair<KeyType,ValueType> get_max(const map<KeyType,ValueType>& x ) {
+  using pairtype=pair<KeyType,ValueType>; 
+  return *max_element(x.begin(), x.end(), [] (const pairtype & p1, const pairtype & p2) {
+    return p1.second < p2.second;
+  }); 
+}
+
+// 使い方
+signed main() {
+  auto max=get_max(x);
+  cout << max.first << "=>" << max.second << endl; 
+}
+
+☆mapの最小値を求める
+template<typename KeyType, typename ValueType> 
+pair<KeyType,ValueType> get_min(const map<KeyType,ValueType>& x ) {
+  using pairtype=pair<KeyType,ValueType>; 
+  return *min_element(x.begin(), x.end(), [] (const pairtype & p1, const pairtype & p2) {
+        return p1.second < p2.second;
+  }); 
+}
+
+// 使い方
+signed main() {
+  auto min=get_min(x);
+  cout << min.first << "=>" << min.second << endl; 
+}
+
+☆等差数列(a初項,d差分,n要素数)
+template<class T>T tousa_sum(T a, T d, ll n) {
+	return (a * 2 + d * (n - 1)) * n / 2;
+}
+
+☆座標圧縮(sort,unique,2分探索)(元の配列には何もしない、戻り値は座標圧縮後の配列)
+vector<int> compress(vector<int> A) {
+  // コピー
+  vector<int> B = A;
+  
+  // B を小さい順にソート
+  sort(B.begin(), B.end());
+  
+  // B から重複を除去する
+  B.erase(unique(B.begin(), B.end()), B.end());
+
+  // 座標圧縮した結果を求める
+  vector<int> res(A.size());
+  for (int i = 0; i < A.size(); ++i) {
+    res[i] = lower_bound(B.begin(), B.end(), A[i]) - B.begin();
+  }
+
+  return res;
+}
+
+☆座標圧縮(mapを使用)(スニペットにはこれを採用)
+vi compress(vi A) {
+  map<int,int> mp;
+  vi res(sz(A));
+
+  rep(i,0,sz(A)) mp[A[i]]=0; // mapに元の配列を入れる
+  int i=0;
+  fore(x,mp) x.second = i++; // 順番を付ける
+  rep(i,0,sz(A)) res[i] = mp[A[i]]; // 元の配列を順番にする
+
+  return res;
+}
+
+☆座標圧縮(sort,unique,2分探索)(元の配列を圧縮後の配列にする、戻り値はユニークな要素数)
+int compress(vector<int> &A) {
+  // コピー
+  vector<int> B = A;
+  
+  // B を小さい順にソート
+  sort(B.begin(), B.end());
+  
+  // B から重複を除去する
+  B.erase(unique(B.begin(), B.end()), B.end());
+
+  // 座標圧縮した結果を求める
+  for (int i = 0; i < A.size(); ++i) {
+    A[i] = lower_bound(B.begin(), B.end(), A[i]) - B.begin();
+  }
+
+  return sz(B);
+}
+
+☆2次元配列の回転
+// CCW90度
+vvi rotCCW90(vvi a){
+  int r=sz(a); // 元々の配列の行列サイズを取得
+  int c=sz(a[0]);
+  vvi b(c);
+  for(int i=0; i<c; i++){
+    for(int j=0; j<r; j++){
+      b[i].emplace_back(a[j][c-1-i]);
+    }
+  }
+  return b;
+}
+
+// CCW180度
+vvi rotCCW180(vvi a){
+  int r=sz(a); // 元々の配列の行列サイズを取得
+  int c=sz(a[0]);
+  vvi b(r);
+  for(int i=0; i<r; i++){
+    for(int j=0; j<c; j++){
+      b[i].emplace_back(a[r-1-i][c-1-j]);
+    }
+  }
+  return b;
+}
+
+// CW90度
+vvi rotCW90(vvi a){
+  int r=sz(a); // 元々の配列の行列サイズを取得
+  int c=sz(a[0]);
+  vvi b(c);
+  for(int i=0; i<c; i++){
+    for(int j=0; j<r; j++){
+      b[i].emplace_back(a[r-1-j][i]);
+    }
+  }
+  return b;
+}
+
+☆転置行列を求める
+vvi transpose_matrix(vvi a){
+  int r=sz(a); // 元々の配列の行列サイズを取得
+  int c=sz(a[0]);
+  vvi b(c);
+  rep(i,0,c){
+    rep(j,0,r){
+      b[i].emplace_back(a[j][i]);
+    }
+  }
+  return b;
+}
+
+☆回文判定
+bool isPalindrome(string s){
+  string t=s;
+  reverse(all(t));
+  return s==t;
+}
+
+☆全パターンの部分列でそれぞれの和を求める(sort(all(A))、uniq(A)はしていない)
+vector<int> subsequenceSum(vector<int> A){
+  vector<int> res={0};
+  fore(e,A){
+    for(int i=sz(res); i--;){
+      res.emplace_back(res[i]+e);
+    }
+  }
+  //sort(all(res));
+  //uniq(res); // uniq前にはsortが必要
+  return res;
+}
+
+☆根付き木で部分木のサイズを求める
+
+☆トポロジカルソート(結果のvectorを返す、閉路を含む場合は要素-1の1つのみを含むvectorを返す)
+// 元のプログラムはABC223D
+vi topoSort(Graph &G){
+  int N=sz(G); // 頂点数
+  // 多重辺を消す
+  set<P> s;
+  rep(v,0,N){
+    fore(to,G[v]){
+      s.insert(P(v,to)); // 元->先のペア
+    }
+  }
+
+  // 自己ループを消す
+  rep(i,0,N) s.erase(P(i,i));
+
+  // 多重辺をなくした隣接グラフG2を作る
+  // 同時に入次数もカウント
+  Graph G2(N);
+  vi d(N,0); // 入次数
+  fore(e,s){
+    int a,b;
+    tie(a,b)=e;
+    G2[a].emplace_back(b);
+    d[b]++;
+  }
+
+  min_priority_queue<int> q; // 出力を昇順にする場合
+  //queue<int> q; // 出力を処理順にする場合
+  rep(i,0,N){
+    if(d[i]==0) q.push(i);
+  }
+
+  vi ans;
+  while(!q.empty()){
+    int v=q.top(); q.pop();
+    ans.emplace_back(v);
+    fore(e,G2[v]){
+      d[e]--;
+      if(d[e]==0) q.push(e); // 入次数が0になったら使えるようになる
+    }
+  }
+  
+  if(sz(ans)==N){
+    return ans;
+  }else{
+    vi res={-1};
+    return res;
+  }
+}
+
+☆凸包の点を抜き出す(O(N^2))
+
+
+☆拡張ユークリッドの互除法
+// ax+by=gcd(a,b)となるx,yを求める,戻り値はgcd(a,b)
+int extgcd(int a, int b, int &x, int &y) {
+  if(b==0) {
+    x=1;
+    y=0;
+    return a;
+  }else{
+    int g=extgcd(b, a%b, y, x);
+    y-=a/b*x;
+    return g;
+  }
+}
+//int a=1029, b=1071, x, y;
+//int g=extgcd(a,b,x,y);
+
+☆木の直径を求める(下に直径の2頂点も返すバージョンがある)
+void dfs(const vvi &G, vector<int> &dist, int cu = 0){
+  fore(next_v,G[cu]){
+    if(dist[next_v]!=-1) continue;
+    dist[next_v]=dist[cu]+1;
+    dfs(G,dist,next_v);
+  }
+}
+
+int getTreeDiameter(vvi &G){
+  int N=sz(G);
+  vi dist;
+
+  // 0からの各頂点の距離を求める
+  dist.assign(N,-1);
+  dist[0]=0;
+  dfs(G,dist,0); // distを更新
+  // 0から最も遠い頂点を求める
+  int max_dist=0;
+  int max_v=0;
+  rep(i,0,N){
+    if(chmax(max_dist,dist[i])) max_v=i;
+  }
+
+  // max_vからの各頂点の距離を求める
+  dist.assign(N,-1);
+  dist[max_v]=0; // distを更新
+  dfs(G,dist,max_v);
+  // max_vから最も遠い頂点までの距離を求める
+  max_dist=0;
+  rep(i,0,N){
+    chmax(max_dist,dist[i]);
+  }
+
+  return max_dist;
+}
+
+☆木の直径と構成する頂点を返す
+tuple<int,int,int> getTreeDiameter2(vvi &G){
+  int N=sz(G);
+  vi dist;
+
+  // 始点を指定しdistを更新する関数
+  auto dfs=[&](auto f, int cu) -> void {
+    fore(next_v,G[cu]){
+      if(dist[next_v]!=-1) continue;
+      dist[next_v]=dist[cu]+1;
+      f(f,next_v);
+    }
+  };
+
+  // 0からの各頂点の距離を求める
+  dist.assign(N,-1);
+  dist[0]=0;
+  dfs(dfs,0); // distを更新
+  // 0から最も遠い頂点を求める
+  int max_dist=0;
+  int max_v=0;
+  rep(i,0,N){
+    if(chmax(max_dist,dist[i])) max_v=i;
+  }
+
+  // max_vからの各頂点の距離を求める
+  dist.assign(N,-1);
+  dist[max_v]=0;
+  dfs(dfs,max_v); // distを更新
+  // max_vから最も遠い頂点までの距離を求める
+  max_dist=0;
+  int max_v2=0;
+  rep(i,0,N){
+    if(chmax(max_dist,dist[i])) max_v2=i;
+  }
+
+  return make_tuple(max_dist,max_v,max_v2);
+}
+// main関数内で以下のように使う
+vvi G(N);
+rep(i,0,N-1){
+  int a,b;
+  cin >> a >> b;
+  a--; b--;
+  G[a].emplace_back(b);
+  G[b].emplace_back(a);
+}
+int d,v1,v2;
+tie(d,v1,v2)=getTreeDiameter2(G);
+
+☆最小全域木を返す関数(クラスカル法)
+// Union-Findが必要
+// 頂点数Nをグローバルに置く
+// 引数Gは(重み、頂点1、頂点2)の順のvector
+// !!!!!!!!!! Gはソートしておく !!!!!!!!!!
+using Graph = vector<tuple<int,int,int>>; // テンプレートのGraphは消す
+Graph getMST(const Graph &G){
+  Graph res;
+  UnionFind uf(N);
+  fore(e,G){
+    int u,v,co;
+    tie(co,u,v)=e;
+    if(uf.issame(u,v)) continue;
+    uf.unite(u,v);
+    res.emplace_back(make_tuple(co,u,v));
+  }
+  return res;
+}
+
+☆組み合わせ パスカルの三角形
+// (0-indexed)でありc[5][2]で5個から2個選ぶ組み合わせの数になる
+const int MX=60; // MX C MX までいける
+int c[MX+1][MX+1];
+void pascal_triangle(){
+  c[0][0]=1;
+  rep(i,0,MX) rep(j,0,MX){
+    c[i+1][j] += c[i][j];
+    c[i+1][j+1] += c[i][j];
+  }
+}
+
+signed main() {
+  pascal_triangle(); // これでc[][]で使えるようになる
+}
+
+☆LIS(同じ値は潰れる)
+int LIS(const vi &a) {
+  int N = sz(a);
+  vi dp(N,INF);
+  rep(i,0,N){
+    auto it = lower_bound(dp.begin(),dp.end(),a[i]);
+    *it = a[i];
+  }
+  return lower_bound(dp.begin(), dp.end(), INF) - dp.begin();
+}
+
+☆転倒数(compress,BITが必要)
+vi compress(vi A) {
+  map<int,int> mp;
+  vi res(sz(A));
+  
+  rep(i,0,sz(A)) mp[A[i]]=0; // mapに元の配列を入れる
+  int i=0;
+  fore(x,mp) x.second = i++; // 順番を付ける
+  rep(i,0,sz(A)) res[i] = mp[A[i]]; // 元の配列を順番にする　
+
+  return res;
+}
+
+template<typename T>
+struct BIT {
+  int n;
+  vector<T> d;
+  BIT(int n=0):n(n),d(n+1) {}
+  void add(int i, T x=1) {
+    for (i++; i <= n; i += i&-i) {
+      d[i] += x;
+    }
+  }
+  T sum(int i) {
+    T x = 0;
+    for (i++; i; i -= i&-i) {
+      x += d[i];
+    }
+    return x;
+  }
+  T sum(int l, int r) {
+    return sum(r-1) - sum(l-1);
+  }
+};
+
+int inversion(vi A){
+  A=compress(A);
+  int N=sz(A);
+  BIT<int> b(N);
+  int res=0;
+  rep(i,0,N){
+    res+=b.sum(A[i],N);
+    b.add(A[i],1);
+  }
+  return res;
+}
+
+☆0からNまでのXORを求める(桁ごとに計算)O(logN)(下の方が計算量的に有利)
+int xor_all(int N){
+  if(N<=0) return 0; // 例外処理
+
+  N++; // ループの計算のために1を加えると都合が良い
+  int loop_len=2; // 1ループの長さ
+  int two=1;
+  int res=0;
+  while(N > two){    
+    int loop_num=N/loop_len; // ループの登場回数
+    int one=loop_num*loop_len/2; // ループ内の1の個数
+
+    int rest=N-loop_len*loop_num; // 残りの中の0と1の個数
+    rest-=loop_len/2; // 0の個数を減じる
+    chmax(rest,0LL); // マイナスになら0個
+    one+=rest;
+    if(one%2) res+=two;
+
+    two*=2;
+    loop_len*=2;
+  }
+  return res;
+}
+
+☆0からNまでのXORを求める(区間2のペアの性質を利用)O(1)
+int xor_all2(int A){
+  int cnt=(A+1)/2; // 0スタートの区間2のXORは1になる
+  ll ans=cnt%2; // 区間に収まるもののXOR
+  if(A%2==0) ans^=A; // 区間に収まらない最後の要素とのXOR
+  return ans;
+}
+
+☆強連結成分分解
+//https://ei1333.github.io/luzhiled/snippets/graph/strongly-connected-components.html
+//StronglyConnectedComponents(g):=グラフgで初期化する。
+//build(t):=強連結成分分解をする。
+// 強連結成分の番号はトポロジカル順に昇順にふられる。
+// tには強連結成分ごとに縮約したグラフが格納される
+// (多重辺が生えるので注意)。
+//[k]:=頂点kが属する強連結成分の番号を返す。
+template< typename G >
+struct StronglyConnectedComponents {
+  const G &g;
+  UnWeightedGraph gg, rg;
+  vector< int > comp, order, used;
+
+  StronglyConnectedComponents(G &g) : g(g), gg(g.size()), rg(g.size()), comp(g.size(), -1), used(g.size()) {
+    for(int i = 0; i < g.size(); i++) {
+      for(auto e : g[i]) {
+        gg[i].emplace_back((int) e);
+        rg[(int) e].emplace_back(i);
+      }
+    }
+  }
+
+  int operator[](int k) {
+    return comp[k];
+  }
+
+  void dfs(int idx) {
+    if(used[idx]) return;
+    used[idx] = true;
+    for(int to : gg[idx]) dfs(to);
+    order.push_back(idx);
+  }
+
+  void rdfs(int idx, int cnt) {
+    if(comp[idx] != -1) return;
+    comp[idx] = cnt;
+    for(int to : rg[idx]) rdfs(to, cnt);
+  }
+
+  void build(UnWeightedGraph &t) {
+    for(int i = 0; i < gg.size(); i++) dfs(i);
+    reverse(begin(order), end(order));
+    int ptr = 0;
+    for(int i : order) if(comp[i] == -1) rdfs(i, ptr), ptr++;
+
+    t.resize(ptr);
+    for(int i = 0; i < g.size(); i++) {
+      for(auto &to : g[i]) {
+        int x = comp[i], y = comp[to];
+        if(x == y) continue;
+        t[x].push_back(y);
+      }
+    }
+  }
+};
+
+☆viのランレングス圧縮(cは番兵で、あり得ない値を入れる)
+vi run_length_vi(vi A,int c=-1){
+  int N=sz(A);
+  A.emplace_back(c); // 番兵
+  vi res;
+  int num=1;
+  rep(i,0,N){
+    if(A[i]==A[i+1]) num++;
+    if(A[i]!=A[i+1]){
+      res.emplace_back(num);
+      num=1;
+    }
+  }
+  return res;
+}
+
+☆文字列のランレングス圧縮(cは番兵で、あり得ない値を入れる)ABC124Dで実装
+vi run_length_str(string S,char c='*'){
+  int N=sz(S);
+  S=S+c; // 番兵
+  vi res;
+  int len=1;
+  rep(i,0,N){
+    if(S[i]==S[i+1]) len++;
+    if(S[i]!=S[i+1]){
+      res.emplace_back(len);
+      len=1;
+    }
+  }
+  return res;
+}
+
+☆文字列のランレングス圧縮(hamayanさんABC124D)
+//https://atcoder.jp/contests/abc124/submissions/4966633
+vector<pair<char, int>> runLengthEncoding(string s) {
+	int n = s.length();
+ 
+	vector<pair<char, int>> res;
+	char pre = s[0];
+	int cnt = 1;
+	rep(i, 1, n) {
+		if (pre != s[i]) {
+			res.push_back({ pre, cnt });
+			pre = s[i];
+			cnt = 1;
+		}
+		else cnt++;
+	}
+ 
+	res.push_back({ pre, cnt });
+	return res;
+}
+
+☆掃き出し法
+// A/Bを求める(A,B,resは小さい方が次数が高い、不成立の場合okをfalseにして{-1}を返す)
+vi hakidashi(vi A, vi B, bool &ok){
+  ok=true;
+  int N=sz(A);
+  int M=sz(B);
+  vi res;
+  rep(i,0,N-M+1){ // resの各桁を回す
+    if(A[i]%B[0]!=0){ok=false; return {-1};} // 分数が許容ならこれは外す
+    int cu=A[i]/B[0];
+    rep(j,0,M){ // Bの各桁を回す
+      A[i+j]-=B[j]*cu;
+    }
+    res.emplace_back(cu);
+  }
+
+  rep(i,M,N) if(A[i]!=0){ok=false; return {-1};}
+  return res;
+}
+
+☆行列累乗(mintが必要)
+vector<mint> mulMatVec(vector<vector<mint>> A, vector<mint> B){
+  int N=sz(B); vector<mint> res(N,0);
+  rep(i,0,N) rep(j,0,N) res[i]+=A[i][j]*B[j];
+  return res;
+}
+
+vector<vector<mint>> mulMatMat(vector<vector<mint>> A, vector<vector<mint>> B){
+  int N=sz(A); vector<vector<mint>> res(N,vector<mint>(N,0));
+  rep(i,0,N) rep(j,0,N) rep(k,0,N) res[i][j]+=A[i][k]*B[k][j];
+  return res;
+}
+
+vector<vector<mint>> fastpow(vector<vector<mint>> x, int n){
+  vector<vector<mint>> res(sz(x),vector<mint>(sz(x),0));
+  rep(i,0,sz(x)) res[i][i]=1;
+  while(0<n){
+    if((n%2)==0){
+      x=mulMatMat(x,x);
+      n>>=1;
+    }else{
+      res=mulMatMat(res,x);
+      --n;
+    }
+  }
+  return res;
+}
+//void printVec(vector<mint> a){cout << "[\t"; rep(i,0,sz(a)) cout << a[i] << "\t"; cout << "]" << endl;}
+//void printMat(vector<vector<mint>> a){rep(i,0,sz(a)) printVec(a[i]);}
+
+☆最長共通部分列
+int lcs(string s, string t){
+  int n=sz(s);
+  int m=sz(t);
+  vvi dp(n+1,vi(m+1,0)); 
+  rep(i,0,n){
+    rep(j,0,m){
+      if(s[i]==t[j]) dp[i+1][j+1]=dp[i][j]+1;
+      else dp[i+1][j+1]=my_max(dp[i+1][j], dp[i][j+1]);
+    }
+  }
+  return dp[n][m];
+}
+
+☆編集距離(レーベンシュタイン距離(削除と挿入のみ))(N-lsc*2でも同じ結果になる)
+// CODE FESTIVAL 2015 あさぷろ Easy D - ヘイホー君と削除
+// https://atcoder.jp/contests/code-festival-2015-morning-easy/tasks/cf_2015_morning_easy_d
+int edit_dist(string s,string t){
+  int n=sz(s);
+  int m=sz(t);
+  vvi dist(n+1,vi(m+1,0));
+  rep(i,1,n+1) dist[i][0]=i;
+  rep(j,1,m+1) dist[0][j]=j;
+  rep(i,0,n){
+    rep(j,0,m){
+      if(s[i]==t[j]) dist[i+1][j+1]=dist[i][j];
+      else dist[i+1][j+1]=my_min(dist[i][j+1]+1,dist[i+1][j]+1);
+    }
+  }
+  return dist[n][m];
+}
+☆編集距離(レーベンシュタイン距離(削除と挿入と置換))
+int edit_dist(string s,string t){
+  int n=sz(s);
+  int m=sz(t);
+  vvi dist(n+1,vi(m+1,0));
+  rep(i,1,n+1) dist[i][0]=i;
+  rep(j,1,m+1) dist[0][j]=j;
+  rep(i,0,n){
+    rep(j,0,m){
+      if(s[i]==t[j]) dist[i+1][j+1]=dist[i][j];
+      else dist[i+1][j+1]=my_min(my_min(dist[i][j+1]+1,dist[i+1][j]+1),dist[i][j]+1);
+    }
+  }
+  return dist[n][m];
+}
+
+☆幾何
+☆線分が公差するか判定(ABC016D)
+// 点の構造体
+struct Point{
+  int x;
+  int y;
+};
+// 線分の交差判定(p1,p2の線分とp3,p4の線分)
+bool isCross(Point p1,Point p2,Point p3,Point p4){
+  if(((p1.x-p2.x)*(p3.y-p1.y)+(p1.y-p2.y)*(p1.x-p3.x))*((p1.x-p2.x)*(p4.y-p1.y)+(p1.y-p2.y)*(p1.x-p4.x))<0){
+    if(((p3.x-p4.x)*(p1.y-p3.y)+(p3.y-p4.y)*(p3.x-p1.x))*((p3.x-p4.x)*(p2.y-p3.y)+(p3.y-p4.y)*(p3.x-p2.x))<0){
+      return true;
+    }
+  }
+  return false;
+}
+
+☆2点から直線の方程式を求める関数(ARC042B)
+vector<double> line_Points(double x1,double y1,double x2,double y2){
+  vector<double> res(3);
+  res[0]=(y2-y1); // a
+  res[1]=(x1-x2); // b
+  res[2]=(x2*y1-x1*y2); // c
+  return res;
+}
+
+☆点の座標と直線の方程式から距離を求める関数(ARC042B)
+double dist_PointLine(double x,double y,double a,double b,double c){
+  return abs(a*x+b*y+c)/sqrt(a*a+b*b);
+}
+
+☆3点から三角形の面積を外積で求める(2ベクトルの平行四辺形の半分)
+int tri_S(int x0,int y0,int x1,int y1,int x2,int y2){
+  x1-=x0; y1-=y0;
+  x2-=x0; y2-=y0;
+  return abs(x1*y2-x2*y1); // 1/2していないのでこれは平行四辺形の面積
+}
+
+☆上のpairバージョン
+int tri_S(P p0,P p1,P p2){
+  int x1=p1.fi-p0.fi;
+  int y1=p1.se-p0.se;
+  int x2=p2.fi-p0.fi;
+  int y2=p2.se-p0.se;
+  return abs(x1*y2-x2*y1); // 1/2していないのでこれは平行四辺形の面積
+}
+
+☆複素数平面上(極座標)で原点を中心に回転
+using C = complex<double>;
+C comp_rot(C c, double rad){
+  C r(cos(rad),sin(rad)); // 回転用の複素数
+  return c*r;
+}
+
+signed main() {
+  int x1,y1;
+  cin >> x1 >> y1;
+
+  C c1(x1,y1); // (x1,y1)を複素数平面にプロット
+  double rad=2*M_PI/5;
+  C c=comp_rot(c1,rad); // 回転
+  printf("%.10lf %.10lf\n",c.real(),c.imag());
+  //C c0=(c1+c2)/2.0; // 他,中点を求める際,/2でなく/2.0でないとエラーなので注意
+}
+
+☆回転行列による原点を中心にした回転(上の複素数平面で良い)
+// http://www.kodama-lab.com/seminar/javalang/ex02/rotate2.html
+pair<double,double> mat_rot(pair<double,double> a, double rad){
+  double x,y;
+  tie(x,y)=a; // 現在の座標
+  double x1=x*cos(rad)-y*sin(rad); // 回転後の座標
+  double y1=x*sin(rad)+y*cos(rad);
+  return make_pair(x1,y1);
+}
+
+☆座標上での回転(下を一括でコピーして使う)
+// https://cpprefjp.github.io/reference/cmath/sin.html
+// long double sinl(long double x);
+// 度をラジアンに変換
+double deg2rad(double d){return d/180.0*M_PI;}
+// 点を原点を中心に回転(度)
+pair<double,double> rot_origin_deg(double x, double y, double d){
+  double r=deg2rad(d);
+  return make_pair(x*cos(r)-y*sin(r),x*sin(r)+y*cos(r));
+}
+// 点を原点を中心に回転(ラジアン)
+pair<double,double> rot_origin_rad(double x, double y, double r){
+  return make_pair(x*cos(r)-y*sin(r),x*sin(r)+y*cos(r));
+}
+// 点(x1,y1)を特定座標(x2,y2)を中心に回転(度)
+pair<double,double> rot_around_point_deg(double x1, double y1, double x2, double y2, double d){
+  pair<double,double> a=rot_origin_deg(x1-x2,y1-y2,d);
+  return make_pair(a.first+x2,a.second+y2);
+}
+// 使い方
+// pair<double,double> res1=rot_around_point_deg(x1,y1,x2,y2,d);
+// printf("%.10lf %.10lf\n",res1.fi,res1.se);
+
+// 点(x1,y1)を特定座標(x2,y2)を中心に回転(ラジアン)
+pair<double,double> rot_around_point_rad(double x1, double y1, double x2, double y2, double r){
+  pair<double,double> a=rot_origin_rad(x1-x2,y1-y2,r);
+  return make_pair(a.first+x2,a.second+y2);
+}
+// 使い方
+// pair<double,double> res2=rot_around_point_rad(x1,y1,x2,y2,r);
+// printf("%.10lf %.10lf\n",res2.fi,res2.se);
+
+☆8方向のオープニング、クロージング(ABC039D)
+// グラフに必要なdx,dyが必要
+// tarに設定したものを広げる、tar='.'ならオープニング、tar='#'ならクロージング
+const int dx[]={1,1,1,0,-1,-1,-1,0};
+const int dy[]={1,0,-1,-1,-1,0,1,1};
+vector<string> open_close(vector<string> S, char tar){
+  vector<string> res=S;
+  int H=sz(S);
+  int W=sz(S[0]);
+  rep(i,0,H){
+    rep(j,0,W){
+      if(S[i][j]==tar){
+        rep(k,0,8){
+          int x=i+dx[k];
+          int y=j+dy[k];
+          if(x<0 or y<0 or H<=x or W<=y) continue; // 範囲外スキップ
+          res[x][y]=tar;
+        }
+      }
+    }
+  }
+  return res;
+}
+
+// https://kopricky.github.io/code/Computation_Advanced/fast_zeta_transform.html
+// https://tiramister.net/blog/posts/fast-zeta-transform/
+// 上2つの組み合わせ
+☆高速ゼータ変換 //上位集合(含む集合)の和
+vi fast_zeta_transform(int n, vi f){
+  vi g=f;
+  for(int i = 0; i < n; ++i){
+    for(int j = 0; j < (1 << n); ++j){
+      if(!(j >> i & 1)) g[j] += g[j ^ (1 << i)];
+    }
+  }
+  return g;
+}
+
+☆高速ゼータ変換 // 下位集合(含まれる集合)の和
+vi fast_zeta_transform(int n, vi f){
+  vi g=f;
+  for(int i = 0; i < n; ++i){
+    for(int j = 0; j < (1 << n); ++j){
+      if(j >> i & 1) g[j] += g[j ^ (1 << i)];
+    }
+  }
+  return g;
+}
+
+☆viについてkey以上/以下の要素番号を返す(dirが0で以上,1で以下)
+int lower_bound_lr(vi &A, int key, int dir){
+  if(sz(A)==0) return -1; // viが空の場合
+  int idx = lower_bound(all(A),key) - A.begin();
+  if(dir==0){ // 以上を求める
+    if(idx==sz(A)) idx=-1; // 範囲外になる場合
+  }else{ // 以下を求める
+    idx--; // 範囲外になる場合もこれで対応できる
+  }
+  return idx;
+}
+
+☆ベルマン・フォード法
+// 負のループが存在する場合falseが返る,distに結果が入る
+struct Edge{
+  int to,val;
+  Edge(int to=0, int val=0): to(to), val(val) {}
+};
+bool bellman_ford(const vector<vector<Edge>> &G, int N, int s, vi &dist) {
+  dist.resize(N,INF);
+  dist[s]=0;
+  bool negative_loop=false;
+  rep(i,0,N){ // 頂点の数だけループをまわす
+    bool update=false;
+    rep(u,0,N){ // 始点をまわす
+      fore(e,G[u]){ // 始点から出る辺をまわす
+        int v=e.to;
+        int d=e.val;
+        if(dist[u]==INF) continue; // 更新する価値がなければスキップ
+        if(chmin(dist[v],dist[u]+d)){
+          update=true;
+        }
+      }
+    }
+    if (!update) break;
+    if(i==N-1 and update) negative_loop=true;
+  }
+
+  return !negative_loop;
+}
+
+☆区間が被る事を判定
+bool is_have_common(int l1, int r1, int l2, int r2){
+  return max(l1,l2)<=min(r1,r2);
+}
+
+☆二部グラフ判定(内部で色カウントもしている)
+bool is_bipartite(vvi &G){
+  int N=sz(G); // 頂点数
+  vi color(N,-1); // -1:未,0:白,1:黒
+  bool res=true; // 二部グラフ達成可能か
+
+  // 最初の頂点
+  rep(i,0,N){
+    if(color[i]!=-1) continue; // 使用済スキップ
+    vi cnt01(2,0); // 各色をカウント(この位置だと連結グループ毎にカウント,1つ外にすると全頂点についてカウント)
+    color[i]=0; // 白
+    cnt01[0]++;
+    queue<int> q;
+    q.push(i);
+    while(!q.empty()){
+      int cu=q.front(); q.pop();
+      int nx_col=color[cu]^1;
+      fore(nx,G[cu]){
+        if(color[nx]!=-1){ // 着色済は色確認
+          // 二部グラフ達成不可
+          if(color[nx]!=nx_col){
+            res=false; // 抜けてもよい
+          }
+        }else{
+          color[nx]=nx_col;
+          cnt01[nx_col]++;
+          q.push(nx);
+        }
+      }
+    }
+  }
+  return res;
+}
+☆二部グラフ判定(連結成分毎にP(白,黒)を返す,1つでも二部グラフでなければP(-1,-1)のみを返す)(ABC282D)
+vp bipartite_bw_cnt(vvi &G){
+  int N=sz(G); // 頂点数
+  vi color(N,-1); // -1:未,0:白,1:黒
+  vp res; // 二部グラフの白黒カウント(連結成分ごと)
+  // 最初の頂点
+  rep(i,0,N){
+    if(color[i]!=-1) continue; // 使用済スキップ
+    vi cnt01(2,0); // 各色をカウント(この位置だと連結グループ毎にカウント,1つ外にすると全頂点についてカウント)
+    color[i]=0; // 白
+    cnt01[0]++;
+    queue<int> q;
+    q.push(i);
+    while(!q.empty()){
+      int cu=q.front(); q.pop();
+      int nx_col=color[cu]^1;
+      fore(nx,G[cu]){
+        if(color[nx]!=-1){ // 着色済は色確認
+          // 二部グラフ達成不可
+          if(color[nx]!=nx_col) return vp({P(-1,-1)});
+        }else{
+          color[nx]=nx_col;
+          cnt01[nx_col]++;
+          q.push(nx);
+        }
+      }
+    }
+    res.emplace_back(P(cnt01[0],cnt01[1]));
+  }
+  return res;
+}
+// vp bw_cnt=bipartite_bw_cnt(G); // 使い方
+
+☆文字列をmintに変換
+mint str_to_mint(string S){
+  reverse(all(S));
+  mint res=0;
+  mint ten=1;
+  rep(i,0,sz(S)){
+    mint d=S[i]-'0';
+    res+=d*ten;
+    ten*=10;
+  }
+  return res;
+}
