@@ -851,7 +851,8 @@ int inversion(vi A){
   BIT<int> b(N);
   int res=0;
   rep(i,0,N){
-    res+=b.sum(A[i],N);
+    // res+=b.sum(A[i],N);
+    res+=b.sum(A[i]+1,N); // 同じ数は転倒しないならこちら
     b.add(A[i],1);
   }
   return res;
@@ -1251,6 +1252,9 @@ vi fast_zeta_transform(int n, vi f){
   }
   return g;
 }
+
+☆メビウス変換(O(N*2^N))(ABC423F)
+rep(i,0,N) rep(bit,0,N2) if((bit>>i)&1) d[bit^(1LL<<i)] -= d[bit];
 
 ☆viについてkey以上/以下の要素番号を返す(dirが0で以上,1で以下)
 int lower_bound_lr(vi &A, int key, int dir){
